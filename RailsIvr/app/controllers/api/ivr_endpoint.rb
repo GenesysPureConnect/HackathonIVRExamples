@@ -13,11 +13,13 @@ module API
 
                 if lastactionid == nil
                     #play welcome message
+                    puts 'returning welcomeplay'
                     return {:action=> 'play',
-                                :message=> 'Welcome ' + remotename + ', I see that you are calling from ' + remotenumber + '  Press 1 if that is correct, otherwise press 2.',
+                                :message=> 'Welcome ' + remotename + ', I see that you are calling from ' + remotenumber + '  Press 1 if that is correct, otherwise press 2 followed by the pound sign',
                                 :id=>'welcomeplay'
                                 }
                 elsif lastactionid== 'welcomeplay'
+                    puts 'returning getdigits'
                     return {
                         :action=>'getdigits', #terminate with #
                         :id=>'getdigits'
@@ -25,20 +27,25 @@ module API
                 elsif lastactionid== 'getdigits'
 
                     if lastdigitsreceived == 1
+                        puts 'returning pre transfertoqueue'
                         return {:action=> 'play',
                                     :message=> 'Great, thank you',
                                     :id=>'pretransfertoqueue'
                                     }
                     else
+                        puts 'returning disconnect'
                         return {
                             :action=>'disconnect'
                         }
                     end
                 elsif lastactionid== 'pretransfertoqueue'
+                    puts 'returning transfer to queu'
                     return {
                         :action=>'transfertoqueue'
                     }
+
                 end
+
             end
 
             post '/callended/:callId' do
