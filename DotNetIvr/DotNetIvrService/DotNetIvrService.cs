@@ -12,7 +12,9 @@ namespace ININ.Alliances.DotNetIvr
             try
             {
                 // Get next action
-                var nextAction = MenuManager.GetNextAction(request.lastactionid, request.lastdigitsreceived);
+                var nextAction = MenuManager.GetNextAction(
+                    string.IsNullOrEmpty(request.lastactionid) ? "" : request.lastactionid,
+                    string.IsNullOrEmpty(request.lastdigitsreceived) ? "" : request.lastdigitsreceived);
                 
                 // Trace info about request and response
                 Console.WriteLine("{4} NextAction: {0}|{1}|{2} -> Result: {3}", request.callid, request.lastactionid, request.lastdigitsreceived, nextAction, DateTime.Now.ToString("HH:mm:ss"));

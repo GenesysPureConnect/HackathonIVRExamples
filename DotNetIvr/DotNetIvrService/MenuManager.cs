@@ -62,8 +62,10 @@ namespace ININ.Alliances.DotNetIvr
                 if (menuItem == null)
                     throw new Exception("Unable to find action with ID " + lastactionid);
 
-                // If only one child and a digit was not provided, return it now
-                if (menuItem.Children.Count == 1 && menuItem.Children[0].Digit.Equals(lastdigitsreceived, StringComparison.InvariantCultureIgnoreCase))
+                // If only one child and it has no digit or we have a digit match, return it now
+                if (menuItem.Children.Count == 1 &&
+                    (string.IsNullOrEmpty(menuItem.Children[0].Digit) ||
+                     menuItem.Children[0].Digit.Equals(lastdigitsreceived, StringComparison.InvariantCultureIgnoreCase)))
                     return menuItem.Children[0];
 
                 // Validate last digits received
@@ -76,7 +78,6 @@ namespace ININ.Alliances.DotNetIvr
 
                 // Validate result from linq query. No result means an invalid digit was pressed.
                 if (nextAction == null)
-                    //throw new Exception("Cannot find next menu option with parent " + lastactionid + " and digits " + lastdigitsreceived);
                     return new DisconnectActionResponse();
 
                 // Return selected action
@@ -85,11 +86,20 @@ namespace ININ.Alliances.DotNetIvr
             catch (Exception ex)
             {
                 Console.WriteLine("Error in GetNextAction: " + ex.Message);
-                return new PlayActionResponse
+
+                if (!string.IsNullOrEmpty(lastactionid) &&
+                    lastactionid.Equals("error", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    id = "error",
-                    message = "An error occurred processing your request."
-                };
+                    return new DisconnectActionResponse();
+                }
+                else
+                {
+                    return new PlayActionResponse
+                    {
+                        id = "error",
+                        message = "An error occurred processing your request."
+                    };
+                }
             }
         }
 
