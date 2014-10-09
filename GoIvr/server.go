@@ -2,8 +2,6 @@ package main
 
 import (
 	"fmt"
-	"github.com/emicklei/go-restful"
-	"github.com/emicklei/go-restful/swagger"
 	"log"
 	"net/http"
 )
@@ -98,19 +96,6 @@ func nextaction(request *restful.Request, response *restful.Response) {
 func main() {
 	Register()
 
-	// Optionally, you can install the Swagger Service which provides a nice Web UI on your REST API
-	// You need to download the Swagger HTML5 assets and change the FilePath location in the config below.
-	// Open http://http://tim-cic4su5.dev2000.com:8080/apidocs and enter http://http://tim-cic4su5.dev2000.com:8080/apidocs.json in the api input field.
-	config := swagger.Config{
-		WebServices:    restful.RegisteredWebServices(), // you control what services are visible
-		WebServicesUrl: "http://http://tim-cic4su5.dev2000.com:8080",
-		ApiPath:        "/apidocs.json",
-
-		// Optionally, specifiy where the UI is located
-		SwaggerPath:     "/apidocs/",
-		SwaggerFilePath: "C:\\GoPath\\src\\github.com\\wordnik\\swagger-ui\\dist"}
-	swagger.InstallSwaggerService(config)
-
-	log.Printf("start listening on http://tim-cic4su5.dev2000.com:8080")
+	log.Printf("start listening on :8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

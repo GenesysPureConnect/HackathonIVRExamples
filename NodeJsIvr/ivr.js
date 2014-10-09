@@ -5,7 +5,7 @@ http.createServer(function (request, response) {
 	console.log("*** New Request (" + request.url + ") ***");
 	var body = '';
 	var isParseError = false;
-	
+
 	// Get request body
 	request.on('data', function(data){
 		try{
@@ -71,12 +71,6 @@ http.createServer(function (request, response) {
 			console.log('response='+JSON.stringify(jsonResponse));
 			response.writeHead(200, {'Content-Type': 'text/json'});
 			response.end(JSON.stringify(jsonResponse));
-			return;
-		}
-		else if (request.url.toLowerCase() == '/teapot'){
-			console.log('THIS IS TEAPOT!!!');
-			response.writeHead(418, {'Content-Type': 'text/plain'});
-			response.end("I'm a little teapot\nshort and stout\nhere is my handle\nhere is my spout\nwhen you tip me over\nhear me shout\njust tip me over\nand pour me out");
 			return;
 		}
 
