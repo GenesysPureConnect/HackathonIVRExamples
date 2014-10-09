@@ -39,7 +39,7 @@ module API
                         }
                     end
                 elsif lastactionid== 'pretransfertoqueue'
-                    puts 'returning transfer to queu'
+                    puts 'returning transfer to queue'
                     return {
                         :action=>'transfertoqueue'
                     }
@@ -47,12 +47,6 @@ module API
                 end
 
             end
-
-            post '/callended/:callId' do
-                #if we were keeping things in a db, we might want to clean it up here
-                puts 'Call ' + params[:callId] + ' ended.'
-            end
-
         end
 
     end
